@@ -94,16 +94,17 @@ class ChoiceType extends ParentType
      */
     protected function buildCheckableChildren($fieldType)
     {
-        $multiple = $this->getOption('multiple') ? '[]' : '';
+       $multiple = $this->getOption('multiple') ? '[]' : '';
 
         foreach ((array)$this->options['choices'] as $key => $choice) {
-            $id = str_replace('.', '_', $this->getNameKey()) . '_' . $key;
+            // $id = str_replace('.', '_', $this->getNameKey()) . '_' . $key;
+            $id = $choice['name'] . '_' . $key;
             $options = $this->formHelper->mergeOptions(
                 $this->getOption('choice_options'),
                 [
-                    'attr'       => ['id' => $id],
+                    'attr'       => array_merge(['id' => $id], $choice['attr']),
                     'label_attr' => ['for' => $id],
-                    'label'      => $choice,
+                    'label'      => $choice['name'],
                     'checked'    => in_array($key, (array)$this->options[$this->valueProperty]),
                     'value'      => $key
                 ]
